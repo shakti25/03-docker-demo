@@ -30,4 +30,5 @@ jobs:
                   echo ${{ github.sha }}
                   echo ${{ github.ref_name }}
                   echo ${{ github.run_number }}
-                  echo "${{ github.sha }}".substring(0, 7)
+                  SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+                  echo $SHORT_SHA
