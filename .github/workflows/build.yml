@@ -46,14 +46,14 @@ jobs:
               id: short-sha
               run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> $GITHUB_ENV
 
-            # 6. Construir la imagen Docker
+            # 7. Construir la imagen Docker
             - name: Build Docker image
               run: |
                 SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
                 docker build -t ${{ env.DOCKER_IMAGE_NAME }}:$SHORT_SHA ./src/DockerDemo03.Web/
                 docker tag ${{ env.DOCKER_IMAGE_NAME }}:$SHORT_SHA ${{ env.DOCKER_IMAGE_NAME }}:latest
 
-            # 7. Subir la imagen a Docker Hub
+            # 8. Subir la imagen a Docker Hub
             - name: Push Docker Image
               run: |
                 docker push ${{ env.DOCKER_IMAGE_NAME }}:$SHORT_SHA
