@@ -44,7 +44,7 @@ jobs:
             # 6. Construir la imagen Docker
             - name: Build Docker image
               run: |
-                docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} .
+                docker build -t ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} ./src/DockerDemo03.Web/
                 docker tag ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }} ${{ env.DOCKER_IMAGE_NAME }}:latest
 
             # 7. Subir la imagen a Docker Hub
