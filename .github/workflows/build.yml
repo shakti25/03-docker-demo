@@ -41,6 +41,11 @@ jobs:
                   username: ${{ secrets.DocKER_USERNAME }}
                   password: ${{ secrets.DOCKER_PASSWORD }}
 
+            # 6. Generate Short SHA
+            - name: Generate SHORT_SHA
+              id: short-sha
+              run: echo "SHORT_SHA=$(echo '${{ github.sha }}' | cut -c1-7)" >> $GITHUB_ENV
+
             # 6. Construir la imagen Docker
             - name: Build Docker image
               run: |
