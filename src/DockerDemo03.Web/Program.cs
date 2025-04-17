@@ -13,16 +13,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseStaticFiles();
-
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
-// app.MapStaticAssets();
 app.MapRazorPages();
-//    .WithStaticAssets();
 
 app.Run();
