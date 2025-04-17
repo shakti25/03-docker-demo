@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     root: './',  // Directorio raíz del proyecto Vite
     build: {
-        outDir: '../wwwroot',  // Directorio de salida para los archivos compilados
+        outDir: './wwwroot',  // Directorio de salida para los archivos compilados
         emptyOutDir: true,  // Limpia la carpeta antes de compilar
         rollupOptions: {
             input: {
