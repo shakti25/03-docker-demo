@@ -1,4 +1,16 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Configurar Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)  // Leer configuración desde appsettings.json
+    .Enrich.FromLogContext()
+    .WriteTo.Console()  // Registrar logs en la consola
+    .CreateLogger();
+
+// Reemplaza el proveedor de logs predeterminado por Serilog
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
