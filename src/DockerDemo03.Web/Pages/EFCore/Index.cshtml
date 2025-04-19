@@ -1,9 +1,31 @@
 @page "EFCore/Index"
 @model IndexModel
 @{
-    ViewData["Title"] = "EF Core";
+    ViewData["Title"] = "Todo List";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<p>here goes the EFCore</p>
+<a class="btn btn-primary mb-3" asp-page="Create">Add New Todo</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Completed</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TodoItems) {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.IsCompleted</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" asp-page="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" asp-page="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

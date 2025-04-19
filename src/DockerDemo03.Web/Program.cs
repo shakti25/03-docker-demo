@@ -1,3 +1,5 @@
+using DockerDemo03.Web.Data;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,11 @@ Log.Logger = new LoggerConfiguration()
 
 // Reemplaza el proveedor de logs predeterminado por Serilog
 builder.Host.UseSerilog();
+
+// Configurar la conexión a la base de datos
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();

@@ -1,0 +1,21 @@
+@page
+@model DockerDemo03.Web.Pages.EFCore.Create
+@{
+    ViewData["Title"] = "Create Todo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label for="Title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="Title" name="TodoItem.Title" required>
+    </div>
+    <div class="form-check mb-3">
+        <input type="hidden" name="TodoItem.IsCompleted" value="false" />
+        <input type="checkbox" class="form-check-input" id="IsCompleted" value="true" name="TodoItem.IsCompleted">
+        <label for="IsCompleted" class="form-check-label">Completed</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a type="button" class="btn btn-secondary" asp-page="Index">Regresar</a>
+</form>
