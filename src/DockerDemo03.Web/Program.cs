@@ -31,6 +31,18 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
+// Aplicacar migraciones automáticamente al iniciar la aplicación
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try {
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
+    } catch (Exception ex) {
+        Log.Fatal(ex, "An error occurred while migrating the database.");
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
