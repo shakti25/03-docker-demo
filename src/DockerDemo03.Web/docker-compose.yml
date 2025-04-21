@@ -28,11 +28,17 @@ services:
     ports:
       - "1433:1433"
     environment:
-      SA_PASSWORD: "YourStrong!Password"
       ACCEPT_EULA: "Y"
+      SA_PASSWORD_FILE: /run/secrets/sqlserver_password
+    secrets:
+      - sqlserver_password
     volumes:
       - sqlserver-data:/var/opt/mssql
 
 volumes:
   sqlserver-data:
   redis-data:
+
+secrets:
+  sqlserver_password:
+    file: ./sqlserver_password.txt
