@@ -36,8 +36,19 @@ using(var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try {
+        // Verificar conectividad con la base de datos
+        Log.Information("Verificando conectividad con la base de datos...");
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        dbContext.Database.Migrate();
+
+        if(await dbContext.Database.CanConnectAsync())
+        {
+            Log.Information("Conectado a la base de datos correctamente.");
+            dbContext.Database.Migrate();
+        }
+        else
+        {
+            Log.Warning("No se pudo conectar a la base de datos.");
+        }
     } catch (Exception ex) {
         Log.Fatal(ex, "An error occurred while migrating the database.");
     }
