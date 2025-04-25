@@ -16,13 +16,19 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 // Configurar la conexión a la base de datos
-builder.Services.AddDbContext<ApplicationDbContext>(options => {
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // configurar Redis
-builder.Services.AddSingleton<IConnectionMultiplexer>(sp => {
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
     var configuration = builder.Configuration.GetSection("Redis")["ConnectionString"];
+    if (string.IsNullOrEmpty(configuration))
+    {
+        throw new InvalidOperationException("La cadena de conexión de Redis no está configurada.");
+    }
     return ConnectionMultiplexer.Connect(configuration);
 });
 
@@ -32,15 +38,16 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Aplicacar migraciones automáticamente al iniciar la aplicación
-using(var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    try {
+    try
+    {
         // Verificar conectividad con la base de datos
         Log.Information("Verificando conectividad con la base de datos...");
         var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-        if(await dbContext.Database.CanConnectAsync())
+        if (await dbContext.Database.CanConnectAsync())
         {
             Log.Information("Conectado a la base de datos correctamente.");
             dbContext.Database.Migrate();
@@ -49,7 +56,9 @@ using(var scope = app.Services.CreateScope())
         {
             Log.Warning("No se pudo conectar a la base de datos.");
         }
-    } catch (Exception ex) {
+    }
+    catch (Exception ex)
+    {
         Log.Fatal(ex, "An error occurred while migrating the database.");
     }
 }
